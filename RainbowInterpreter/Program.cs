@@ -28,12 +28,19 @@ namespace RainbowInterpreter
             }
 
             string[] hexArray = bitmapToHex(bitmapPath);
-
+            
+            //debug program print
             foreach (string s in hexArray)
             {
-                Console.WriteLine(s);
+                Console.WriteLine(s); 
             }
 
+
+            //load interpeter and execute program
+            Interpreter rainbowInterpreter = new Interpreter(hexArray);
+            ExitStatus status = rainbowInterpreter.Execute();
+
+            Console.WriteLine("Program exited with status: {0}", status.ToString());
         }
 
         public static string[] bitmapToHex(string path)
