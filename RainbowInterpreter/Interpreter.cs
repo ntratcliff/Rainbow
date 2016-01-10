@@ -27,11 +27,59 @@ namespace RainbowInterpreter
                 int addr = Convert.ToInt32(statement.Substring(1, 2), 16);
                 ValuePart val = getValuePart(statement);
 
-                Console.WriteLine("{0} {1} {2}", instr, addr, val);
+                //Console.WriteLine("{0} {1} {2}", instr, addr, val);
 
+                switch (instr)
+                {
+                    case Instruction.Exit: return exit(val);
+                    case Instruction.Set: set(addr, val);
+                        break;
+                    case Instruction.Print: print(addr, val);
+                        break;
+                    case Instruction.In:
+                        break;
+                    case Instruction.Label:
+                        break;
+                    case Instruction.Lookback:
+                        break;
+                    case Instruction.Lookahead:
+                        break;
+                    case Instruction.Add:
+                        break;
+                    case Instruction.Sub:
+                        break;
+                    case Instruction.Mul:
+                        break;
+                    case Instruction.Div:
+                        break;
+                    case Instruction.Mod:
+                        break;
+                }                  
             }
 
             return ExitStatus.OK;
+        }
+
+        private ExitStatus exit(ValuePart val) //attempt to return known exit status by value, else return unknown
+        {
+            ExitStatus status = ExitStatus.Unknown;
+            if (Enum.IsDefined(typeof(ExitStatus), val.Value))
+                status = (ExitStatus)val.Value;
+
+            return status;
+        }
+
+        private void set(int addr, ValuePart val) //set cell at address on tape to value
+        {
+            tape[addr] = (byte)val.Value;
+        }
+
+        private void print(int addr, ValuePart val) //print each cell from address to address
+        {
+            for(int i = addr; i <= val.Address; i++)
+            {
+                Console.Write((char)tape[i]);
+            }
         }
 
         private ValuePart getValuePart(string statement)
@@ -55,7 +103,7 @@ namespace RainbowInterpreter
         Set = 1,
         Print = 2,
         In = 3,
-        Flag = 5,
+        Label = 5,
         Lookback = 6,
         Lookahead = 7,
         Add = 10,
@@ -70,7 +118,8 @@ namespace RainbowInterpreter
         OK = 0,
         ProgramException = 1,
         RainbowException = 2,
-        InterpreterException = 3
+        InterpreterException = 3,
+        Unknown = 16
     }
 
     struct ValuePart

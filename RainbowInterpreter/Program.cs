@@ -30,16 +30,17 @@ namespace RainbowInterpreter
             string[] hexArray = bitmapToHex(bitmapPath);
             
             //debug program print
-            foreach (string s in hexArray)
-            {
-                Console.WriteLine(s); 
-            }
+            //foreach (string s in hexArray)
+            //{
+            //    Console.WriteLine(s); 
+            //}
 
 
             //load interpeter and execute program
             Interpreter rainbowInterpreter = new Interpreter(hexArray, 2048);
             ExitStatus status = rainbowInterpreter.Execute();
-
+            
+            Console.WriteLine();
             Console.WriteLine("Program exited with status: {0}", status.ToString());
         }
 
