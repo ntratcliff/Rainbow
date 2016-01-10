@@ -41,7 +41,7 @@ For example: `0x10204C` would result in the VM executing the `set` command, whic
 |-------------|-----------|-------|-------|---------------------------|
 |0            |exit       |`addr` |`val`  |Exit with status code `val`|
 |1            |set        |`addr` |`val`  |Set cell at address `addr` to value `val`|
-|2            |print      |`addr` |`addr2`|Sequentially prints the values of each cell from `addr` to `addr2` in ASCII (inclusively)|
+|2            |print      |`addr` |`addr2`|Sequentially prints the values of each cell from `addr` to `addr2` (inclusively)|
 |3            |in         |`addr` |`addr2`|Takes input starting at `addr` and sets `addr2` to the address of the cell at the end of the input stream|
 |4            |*undefined*|N/A    |N/A    |N/A|
 |5            |label      |N/A    |`val`  |Sets a label of `val` for lookback or lookahead instructions|
@@ -64,3 +64,8 @@ For example: `0x10204C` would result in the VM executing the `set` command, whic
 |`0x02` |RainbowException |Rainbow VM encountered an erroneous statement                  |
 |`0x03` |InternalException|Rainbow VM encountered an unexpected exception                 |
 |`0xFF` |Unknown          |An unexpected and unknown internal exception occurred          |
+
+#The Interpreter
+This Rainbow interpreter is written in C#.NET, and accepts most popular image formats as input, although .BMP is recommended. To run a program, simply compile the RainbowInterpreter project, and execute `RainbowInterpreter.exe` from the console, with your program's path as the first argument.
+
+This interpreter also provides varied behavior for the `print` instruction. By default, print will output the contents of the tape in ASCII. However, if the flag `-h` is present as the second argument, `print` will output the hex values of cells. Alternatively, if the flag `-d` is present as the second argument, `print` will output the decimal values of cells. This is useful for debugging and for mathematical programs such as the factorial example.
