@@ -40,8 +40,7 @@ namespace RainbowInterpreter
             Interpreter rainbowInterpreter = new Interpreter(hexArray, 2048);
             ExitStatus status = rainbowInterpreter.Execute();
             
-            Console.WriteLine();
-            Console.WriteLine("Program exited with status: {0}", status.ToString());
+            Console.WriteLine("\nProgram exited with status: {0}", status.ToString());
         }
 
         public static string[] bitmapToHex(string path)

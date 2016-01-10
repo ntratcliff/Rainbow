@@ -58,13 +58,13 @@ namespace RainbowInterpreter
                 catch(ExitException e)
                 {
                     if(e.ExitStatus != ExitStatus.ProgramException)
-                        Console.WriteLine("{0}: {1}", e.ExitStatus, e.Message);
+                        Console.WriteLine("\n{0}: {1}", e.ExitStatus, e.Message);
 
                     return e.ExitStatus;
                 }
                 catch(Exception e)
                 {
-                    Console.WriteLine("{0}: {1}", ExitStatus.InterpreterException, e.Message);
+                    Console.WriteLine("\n{0}: {1}", ExitStatus.InterpreterException, e.Message);
                     return ExitStatus.InterpreterException;
                 }
                                 
