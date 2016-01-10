@@ -23,51 +23,43 @@ namespace RainbowInterpreter
             {
                 string statement = statements[currentStatement];
 
-                Instruction instr = (Instruction)Convert.ToInt32(statement.Substring(0,1), 16);
+                int iinstr = Convert.ToInt32(statement.Substring(0, 1), 16);
+
+                //check if Instruction enum has statement instruction
+                if (!Enum.IsDefined(typeof(Instruction), iinstr))
+                {
+                    throw new ExitException("Invalid instruction in statement " + statement, ExitStatus.RainbowException);
+                }
+
+                Instruction instr = (Instruction)iinstr;
                 int addr = Convert.ToInt32(statement.Substring(1, 2), 16);
                 ValuePart val = getValuePart(statement);
 
                 //Console.WriteLine("{0} {1} {2}", instr, addr, val);
-                try
+                switch (instr)
                 {
-                    switch (instr)
-                    {
-                        case Instruction.Exit: return exit(val);
-                        case Instruction.Set: set(addr, val);
-                            break;
-                        case Instruction.Print: print(addr, val);
-                            break;
-                        case Instruction.In: input(addr, val);
-                            break;
-                        case Instruction.Lookback: lookback(val);
-                            break;
-                        case Instruction.Lookahead: lookahead(val);
-                            break;
-                        case Instruction.Add: add(addr, val);
-                            break;
-                        case Instruction.Sub: sub(addr, val);
-                            break;
-                        case Instruction.Mul: mul(addr, val);
-                            break;
-                        case Instruction.Div: div(addr, val);
-                            break;
-                        case Instruction.Mod: mod(addr, val);
-                            break;
-                    }  
+                    case Instruction.Exit: return exit(val);
+                    case Instruction.Set: set(addr, val);
+                        break;
+                    case Instruction.Print: print(addr, val);
+                        break;
+                    case Instruction.In: input(addr, val);
+                        break;
+                    case Instruction.Lookback: lookback(val);
+                        break;
+                    case Instruction.Lookahead: lookahead(val);
+                        break;
+                    case Instruction.Add: add(addr, val);
+                        break;
+                    case Instruction.Sub: sub(addr, val);
+                        break;
+                    case Instruction.Mul: mul(addr, val);
+                        break;
+                    case Instruction.Div: div(addr, val);
+                        break;
+                    case Instruction.Mod: mod(addr, val);
+                        break;
                 }
-                catch(ExitException e)
-                {
-                    if(e.ExitStatus != ExitStatus.ProgramException)
-                        Console.WriteLine("\n{0}: {1}", e.ExitStatus, e.Message);
-
-                    return e.ExitStatus;
-                }
-                catch(Exception e)
-                {
-                    Console.WriteLine("\n{0}: {1}", ExitStatus.InterpreterException, e.Message);
-                    return ExitStatus.InterpreterException;
-                }
-                                
             }
 
             return ExitStatus.OK;
@@ -183,7 +175,7 @@ namespace RainbowInterpreter
         Mod = 14
     }
 
-    enum ExitStatus
+    public enum ExitStatus
     {
         OK = 0,
         ProgramException = 1,
@@ -213,20 +205,23 @@ namespace RainbowInterpreter
     public class ExitException : Exception
     {
         public ExitStatus ExitStatus;
-        public ExitException() 
+        public ExitException()
         {
             ExitStatus = ExitStatus.Unknown;
         }
-        public ExitException(string message) : base(message) 
+        public ExitException(string message)
+            : base(message)
         {
             ExitStatus = ExitStatus.Unknown;
         }
 
-        public ExitException(string message, ExitStatus status) : base(message)
+        public ExitException(string message, ExitStatus status)
+            : base(message)
         {
             ExitStatus = status;
         }
-        public ExitException(string message, ExitStatus status, Exception inner) : base(message, inner) 
+        public ExitException(string message, ExitStatus status, Exception inner)
+            : base(message, inner)
         {
             ExitStatus = status;
         }

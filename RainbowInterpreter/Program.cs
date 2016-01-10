@@ -27,7 +27,19 @@ namespace RainbowInterpreter
                 } while (String.IsNullOrWhiteSpace(bitmapPath));
             }
 
-            string[] hexArray = bitmapToHex(bitmapPath);
+            Bitmap bitmap;
+
+            try
+            {
+                bitmap = new Bitmap(bitmapPath);
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine("No file found at " + bitmapPath);
+                return;
+            }
+
+            string[] hexArray = bitmapToHex(bitmap);
             
             //debug program print
             //foreach (string s in hexArray)
@@ -38,15 +50,29 @@ namespace RainbowInterpreter
 
             //load interpeter and execute program
             Interpreter rainbowInterpreter = new Interpreter(hexArray, 2048);
-            ExitStatus status = rainbowInterpreter.Execute();
+            ExitStatus status;
+            try
+            {
+                status = rainbowInterpreter.Execute();
+            }
+            catch (ExitException e)
+            {
+                if (e.ExitStatus != ExitStatus.ProgramException)
+                    Console.WriteLine("\n{0}: {1}", e.ExitStatus, e.Message);
+
+                status = e.ExitStatus;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("\n{0}: {1}", ExitStatus.InterpreterException, e.Message);
+                status = ExitStatus.InterpreterException;
+            }
             
             Console.WriteLine("\nProgram exited with status: {0}", status.ToString());
         }
 
-        public static string[] bitmapToHex(string path)
+        public static string[] bitmapToHex(Bitmap bitmap)
         {
-            Bitmap bitmap = new Bitmap(path);
-
             string[] hexValues = new string[bitmap.Width * bitmap.Height];
             for (int i = 0; i < bitmap.Height; i++)
             {
