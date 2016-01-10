@@ -42,15 +42,15 @@ namespace RainbowInterpreter
                         break;
                     case Instruction.Lookahead: lookahead(val);
                         break;
-                    case Instruction.Add:
+                    case Instruction.Add: add(addr, val);
                         break;
-                    case Instruction.Sub:
+                    case Instruction.Sub: sub(addr, val);
                         break;
-                    case Instruction.Mul:
+                    case Instruction.Mul: mul(addr, val);
                         break;
-                    case Instruction.Div:
+                    case Instruction.Div: div(addr, val);
                         break;
-                    case Instruction.Mod:
+                    case Instruction.Mod: mod(addr, val);
                         break;
                 }                  
             }
@@ -110,6 +110,31 @@ namespace RainbowInterpreter
                     && getValuePart(statements[currentStatement]).Value == val.Value) //if statement is a label and value part is equal to lookahead value
                     return;
             }
+        }
+
+        private void add(int addr, ValuePart val) //adds val to the value at given address on the tape
+        {
+            tape[addr] += (byte)val.Value;
+        }
+
+        private void sub(int addr, ValuePart val) //subtracts val from the value at given address on the tape
+        {
+            tape[addr] -= (byte)val.Value;
+        }
+
+        private void mul(int addr, ValuePart val) //multiplies the value at the given address on the tape by val
+        {
+            tape[addr] *= (byte)val.Value;
+        }
+
+        private void div(int addr, ValuePart val) //divides the value at the given address on the tape by val
+        {
+            tape[addr] /= (byte)val.Value;
+        }
+
+        private void mod(int addr, ValuePart val) //sets the value at the given address on the tape to the mod of that value and val
+        {
+            tape[addr] %= (byte)val.Value;
         }
         
         private ValuePart getValuePart(string statement)
