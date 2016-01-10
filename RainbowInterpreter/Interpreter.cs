@@ -153,6 +153,7 @@ namespace RainbowInterpreter
             tape[addr] %= (byte)val.Value;
         }
 
+
         private ValuePart getValuePart(string statement)
         {
             int val = Convert.ToInt32(statement.Substring(4, 2), 16);

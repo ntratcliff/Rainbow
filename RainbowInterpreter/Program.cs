@@ -38,6 +38,11 @@ namespace RainbowInterpreter
                 Console.WriteLine("No file found at " + bitmapPath);
                 return;
             }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine("No file found at " + bitmapPath);
+                return;
+            }
 
             string[] hexArray = bitmapToHex(bitmap);
             
