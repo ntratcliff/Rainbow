@@ -180,7 +180,7 @@ namespace RainbowInterpreter
         OK = 0,
         ProgramException = 1,
         RainbowException = 2,
-        InterpreterException = 3,
+        InternalException = 3,
         Unknown = 16
     }
 

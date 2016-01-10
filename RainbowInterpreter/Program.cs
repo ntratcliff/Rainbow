@@ -64,8 +64,8 @@ namespace RainbowInterpreter
             }
             catch (Exception e)
             {
-                Console.WriteLine("\n{0}: {1}", ExitStatus.InterpreterException, e.Message);
-                status = ExitStatus.InterpreterException;
+                Console.WriteLine("\n{0}: {1}", ExitStatus.InternalException, e.Message);
+                status = ExitStatus.InternalException;
             }
             
             Console.WriteLine("\nProgram exited with status: {0}", status.ToString());
