@@ -11,9 +11,12 @@ namespace RainbowInterpreter
         private string[] statements;
         private int currentStatement;
         private byte[] tape;
-        public Interpreter(string[] statements)
+        private OutputMode outputMode;
+
+        public Interpreter(string[] statements, OutputMode m)
         {
             this.statements = statements;
+            outputMode = m;
             tape = new byte[256]; //create a tape with 256 8-bit memory cells
         }
 
@@ -81,18 +84,40 @@ namespace RainbowInterpreter
 
         private void print(int addr, ValuePart val) //print each cell from address to address
         {
-            for (int i = addr; i <= val.Address; i++)
+            switch (outputMode)
             {
-                Console.Write((char)tape[i]);
+                case OutputMode.ASCII:
+                    for (int i = addr; i <= val.Address; i++)
+                    {
+                        Console.Write((char)tape[i]);
+                    }
+                    break;
+                case OutputMode.Decimal:
+                    for (int i = addr; i <= val.Address; i++)
+                    {
+                        if (i > addr)
+                            Console.Write("-");
+                        Console.Write(tape[i]);
+                    }
+                    break;
+                case OutputMode.Hex:
+                    for (int i = addr; i <= val.Address; i++)
+                    {
+                        if (i > addr)
+                            Console.Write("-");
+                        Console.Write(tape[i].ToString("X2"));
+                    }
+                    break;
             }
+            
         }
 
         private void input(int addr, ValuePart val) //get text input starting at addr, setting val cell to input end address
         {
             string input = Console.ReadLine();
-            
+
             int num;
-            if(int.TryParse(input, out num) && num < 256) //if input is just a number less than 256, set addr to that number
+            if (int.TryParse(input, out num) && num < 256) //if input is just a number less than 256, set addr to that number
             {
                 tape[addr] = (byte)num;
                 tape[val.Address] = 0x01;
@@ -192,6 +217,13 @@ namespace RainbowInterpreter
         RainbowException = 2,
         InternalException = 3,
         Unknown = 16
+    }
+
+    public enum OutputMode
+    {
+        ASCII,
+        Hex,
+        Decimal
     }
 
     struct ValuePart

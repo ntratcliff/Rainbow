@@ -14,9 +14,21 @@ namespace RainbowInterpreter
         static void Main(string[] args)
         {
             string bitmapPath;
+            OutputMode outputMode = OutputMode.ASCII;
+
             if (args.Length > 0) //get path to bitmap from arguments
             {
                 bitmapPath = args[0];
+                if (args.Length > 1) //get flags from arguments
+                {
+                    switch(args[1])
+                    {
+                        case "-d": outputMode = OutputMode.Decimal;
+                            break;
+                        case "-h": outputMode = OutputMode.Hex;
+                            break;
+                    }
+                }
             }
             else //get path to bitmap from command line input
             {
@@ -45,7 +57,7 @@ namespace RainbowInterpreter
             }
 
             string[] hexArray = bitmapToHex(bitmap);
-            
+
             //debug program print
             //foreach (string s in hexArray)
             //{
@@ -54,7 +66,7 @@ namespace RainbowInterpreter
 
 
             //load interpeter and execute program
-            Interpreter rainbowInterpreter = new Interpreter(hexArray);
+            Interpreter rainbowInterpreter = new Interpreter(hexArray, outputMode);
             ExitStatus status;
             try
             {
@@ -72,7 +84,7 @@ namespace RainbowInterpreter
                 Console.WriteLine("\n{0}: {1}", ExitStatus.InternalException, e.Message);
                 status = ExitStatus.InternalException;
             }
-            
+
             Console.WriteLine("\nProgram exited with status: {0}", status.ToString());
         }
 
@@ -83,7 +95,7 @@ namespace RainbowInterpreter
             {
                 for (int j = 0; j < bitmap.Width; j++)
                 {
-                    Color pixel = bitmap.GetPixel(j,i);
+                    Color pixel = bitmap.GetPixel(j, i);
                     hexValues[i * bitmap.Width + j] = pixel.R.ToString("X2") + pixel.G.ToString("X2") + pixel.B.ToString("X2");
                 }
             }
