@@ -2,7 +2,7 @@
 Rainbow is an esoteric programming language that runs on a virtual machine which takes instructions in the form of 3 byte hexadecimal strings from the RGB values of pixels in a bitmap image.
 
 # The Language
-Rainbow is a language in which 6 character, 3 byte hex strings are encoded into pixel data of a bitmap image, providing instructions for the Rainbow VM. 
+Rainbow is a language in which 6 character, 3 byte hex strings are encoded into pixel data of an image, providing instructions for the Rainbow VM. 
 
 Each hex string is referred to as a statement, and each statement is made up of 4 parts. The first part of a statement is the instruction to be executed on the Rainbow VM, and is defined by the first character of each statement. The second part of a statement is one of two 1 byte, 2 character parameters passed to the Rainbow VM with the instruction and is always a memory address. The third part of a statement is a single character switch indicating whether the last part of the statement is a value or memory address. This switch always has the value of either `1` or `0`. The last two characters of a statement make up the second 1 byte parameter, a value or memory address depending on the state of the previous switch. If the executing instruction calls for a value as the second parameter, but a memory address is provided, the Rainbow VM will use the value of the cell at the address in execution.
 
@@ -32,7 +32,7 @@ This program is interpreted by the Rainbow VM as the following set of instructio
 **Note:** Rainbow is read pixel by pixel, left to right, top to bottom. Image width/height have no effect on execution if the number of pixels is the same, and they are still read in the same order.
 
 # The Rainbow VM
-The Rainbow VM currently has a set of 12 instructions, with capacity for a maximum of 16 instructions. These instructions are identified by the first character of each hex string passed to the VM. These instructions are executed on an 256-cell tape with 8-bit memory cells.
+The Rainbow VM currently has a set of 12 instructions, with capacity for a maximum of 16 instructions. These instructions are identified by the first character of each hex string passed to the VM, and are executed on an 256-cell tape with 8-bit memory cells.
 
 For example: `0x10204C` would result in the VM executing the `set` command, which would set the memory cell at address `0x02` to the value of `0x4C`.
 
