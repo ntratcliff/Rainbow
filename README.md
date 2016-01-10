@@ -36,7 +36,8 @@ The Rainbow VM currently has a set of 12 instructions, with capacity for a maxim
 
 For example: `0x10204C` would result in the VM executing the `set` command, which would set the memory cell at address `0x02` to the value of `0x4C`.
 
-###VM Instructions
+### VM Instructions
+
 |First Character|Instruction|Address|Value  |Description                |
 |-------------|-----------|-------|-------|---------------------------|
 |0            |exit       |`addr` |`val`  |Exit with status code `val`|
@@ -56,7 +57,8 @@ For example: `0x10204C` would result in the VM executing the `set` command, whic
 |E            |mod        |`addr` |`val`  |Mods the value of the cell at `addr` by `val`|
 |F            |*undefined*|N/A    |N/A    |N/A|
 
-###Exit Codes
+### Exit Codes
+
 |Hex    |Name             |Description                                                    |
 |-------|-----------------|---------------------------------------------------------------|
 |`0x00` |OK               |Execution completed successfully                               |
@@ -65,7 +67,9 @@ For example: `0x10204C` would result in the VM executing the `set` command, whic
 |`0x03` |InternalException|Rainbow VM encountered an unexpected exception                 |
 |`0xFF` |Unknown          |An unexpected and unknown internal exception occurred          |
 
-#The Interpreter
+
+# The Interpreter
+
 This Rainbow interpreter is written in C#.NET, and accepts most popular image formats as input, although .BMP is recommended. To run a program, simply compile the RainbowInterpreter project, and execute `RainbowInterpreter.exe` from the console, with your program's path as the first argument.
 
 This interpreter also provides varied behavior for the `print` instruction. By default, print will output the contents of the tape in ASCII. However, if the flag `-h` is present as the second argument, `print` will output the hex values of cells. Alternatively, if the flag `-d` is present as the second argument, `print` will output the decimal values of cells. This is useful for debugging and for mathematical programs such as the factorial example.
