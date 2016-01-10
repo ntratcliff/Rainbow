@@ -28,31 +28,46 @@ namespace RainbowInterpreter
                 ValuePart val = getValuePart(statement);
 
                 //Console.WriteLine("{0} {1} {2}", instr, addr, val);
-
-                switch (instr)
+                try
                 {
-                    case Instruction.Exit: return exit(val);
-                    case Instruction.Set: set(addr, val);
-                        break;
-                    case Instruction.Print: print(addr, val);
-                        break;
-                    case Instruction.In: input(addr, val);
-                        break;
-                    case Instruction.Lookback: lookback(val);
-                        break;
-                    case Instruction.Lookahead: lookahead(val);
-                        break;
-                    case Instruction.Add: add(addr, val);
-                        break;
-                    case Instruction.Sub: sub(addr, val);
-                        break;
-                    case Instruction.Mul: mul(addr, val);
-                        break;
-                    case Instruction.Div: div(addr, val);
-                        break;
-                    case Instruction.Mod: mod(addr, val);
-                        break;
-                }                  
+                    switch (instr)
+                    {
+                        case Instruction.Exit: return exit(val);
+                        case Instruction.Set: set(addr, val);
+                            break;
+                        case Instruction.Print: print(addr, val);
+                            break;
+                        case Instruction.In: input(addr, val);
+                            break;
+                        case Instruction.Lookback: lookback(val);
+                            break;
+                        case Instruction.Lookahead: lookahead(val);
+                            break;
+                        case Instruction.Add: add(addr, val);
+                            break;
+                        case Instruction.Sub: sub(addr, val);
+                            break;
+                        case Instruction.Mul: mul(addr, val);
+                            break;
+                        case Instruction.Div: div(addr, val);
+                            break;
+                        case Instruction.Mod: mod(addr, val);
+                            break;
+                    }  
+                }
+                catch(ExitException e)
+                {
+                    if(e.ExitStatus != ExitStatus.ProgramException)
+                        Console.WriteLine("{0}: {1}", e.ExitStatus, e.Message);
+
+                    return e.ExitStatus;
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine("{0}: {1}", ExitStatus.InterpreterException, e.Message);
+                    return ExitStatus.InterpreterException;
+                }
+                                
             }
 
             return ExitStatus.OK;
@@ -74,7 +89,7 @@ namespace RainbowInterpreter
 
         private void print(int addr, ValuePart val) //print each cell from address to address
         {
-            for(int i = addr; i <= val.Address; i++)
+            for (int i = addr; i <= val.Address; i++)
             {
                 Console.Write((char)tape[i]);
             }
@@ -94,9 +109,9 @@ namespace RainbowInterpreter
 
         private void lookback(ValuePart val) //looks back and begins execution at a flag with the same value (greedy)
         {
-            for(; currentStatement > 0; currentStatement--)
+            for (; currentStatement > 0; currentStatement--)
             {
-                if((Instruction)Convert.ToInt32(statements[currentStatement].Substring(0,1), 16) == Instruction.Label
+                if ((Instruction)Convert.ToInt32(statements[currentStatement].Substring(0, 1), 16) == Instruction.Label
                     && getValuePart(statements[currentStatement]).Value == val.Value) //if statement is a label and value part is equal to lookback value
                     return;
             }
@@ -104,7 +119,7 @@ namespace RainbowInterpreter
 
         private void lookahead(ValuePart val) //looks forward and begins execution at a flag with the same value (greedy)
         {
-            for(; currentStatement < statements.Length; currentStatement++)
+            for (; currentStatement < statements.Length; currentStatement++)
             {
                 if ((Instruction)Convert.ToInt32(statements[currentStatement].Substring(0, 1), 16) == Instruction.Label
                     && getValuePart(statements[currentStatement]).Value == val.Value) //if statement is a label and value part is equal to lookahead value
@@ -136,7 +151,7 @@ namespace RainbowInterpreter
         {
             tape[addr] %= (byte)val.Value;
         }
-        
+
         private ValuePart getValuePart(string statement)
         {
             int val = Convert.ToInt32(statement.Substring(4, 2), 16);
@@ -192,5 +207,32 @@ namespace RainbowInterpreter
         {
             return "Value: " + Value + " Address: " + Address;
         }
+    }
+
+    [Serializable]
+    public class ExitException : Exception
+    {
+        public ExitStatus ExitStatus;
+        public ExitException() 
+        {
+            ExitStatus = ExitStatus.Unknown;
+        }
+        public ExitException(string message) : base(message) 
+        {
+            ExitStatus = ExitStatus.Unknown;
+        }
+
+        public ExitException(string message, ExitStatus status) : base(message)
+        {
+            ExitStatus = status;
+        }
+        public ExitException(string message, ExitStatus status, Exception inner) : base(message, inner) 
+        {
+            ExitStatus = status;
+        }
+        protected ExitException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context)
+            : base(info, context) { }
     }
 }
