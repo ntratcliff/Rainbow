@@ -8,6 +8,29 @@ Each hex string is referred to as a statement, and each statement is made up of 
 
 For example: the statement `0xA05031` would execute the instruction at `A` with the address `0x05` and the value `0x31` as parameters. Additionally, the statement `0xB05131` would execute the instruction at `A` with the address `0x05` and the value of the cell at address `0x31` as parameters, due to the value/address switch being set to `1`.
 
+This is an example of a simple "Hello World!" program in Rainbow:
+![Hello World](https://i.imgur.com/UbOCjLl.png)
+
+This program is interpreted by the Rainbow VM as the following set of instructions (comments excluded):
+```
+0x100048  ;set cell 0x00 to value 0x48 (H)
+0x101045  ;set cell 0x01 to value 0x45 (E)
+0x10204C  ;set cell 0x02 to value 0x4C (L)
+0x10304C  ;set cell 0x03 to value 0x4C (L)
+0x10404F  ;set cell 0x04 to value 0x4F (O)
+0x105020  ;set cell 0x05 to value 0x20 ( )
+0x106057  ;set cell 0x06 to value 0x57 (W)
+0x10704F  ;set cell 0x07 to value 0x4F (O)
+0x108052  ;set cell 0x08 to value 0x52 (R)
+0x10904C  ;set cell 0x09 to value 0x4C (L)
+0x10A044  ;set cell 0x0A to value 0x44 (D)
+0x10B021  ;set cell 0x0B to value 0x21 (!)
+0x20010B  ;print values from cell 0x00 to cell 0x0B 
+0x000000  ;exit with status code 0x00
+```
+
+**Note:** Rainbow is read pixel by pixel, left to right, top to bottom. Image width/height have no effect on execution if the number of pixels is the same, and they are still read in the same order.
+
 # The Rainbow VM
 The Rainbow VM currently has a set of 12 instructions, with capacity for a maximum of 16 instructions. These instructions are identified by the first character of each hex string passed to the VM. These instructions are executed on an 256-cell tape with 8-bit memory cells.
 
