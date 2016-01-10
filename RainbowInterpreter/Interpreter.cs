@@ -11,10 +11,10 @@ namespace RainbowInterpreter
         private string[] statements;
         private int currentStatement;
         private byte[] tape;
-        public Interpreter(string[] statements, int cellCount)
+        public Interpreter(string[] statements)
         {
             this.statements = statements;
-            tape = new byte[cellCount]; //create a tape with 2048 8-bit memory cells
+            tape = new byte[256]; //create a tape with 256 8-bit memory cells
         }
 
         public ExitStatus Execute()

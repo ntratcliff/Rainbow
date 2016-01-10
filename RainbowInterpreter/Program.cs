@@ -49,7 +49,7 @@ namespace RainbowInterpreter
 
 
             //load interpeter and execute program
-            Interpreter rainbowInterpreter = new Interpreter(hexArray, 2048);
+            Interpreter rainbowInterpreter = new Interpreter(hexArray);
             ExitStatus status;
             try
             {
