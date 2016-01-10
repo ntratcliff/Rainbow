@@ -90,6 +90,15 @@ namespace RainbowInterpreter
         private void input(int addr, ValuePart val) //get text input starting at addr, setting val cell to input end address
         {
             string input = Console.ReadLine();
+            
+            int num;
+            if(int.TryParse(input, out num) && num < 256) //if input is just a number less than 256, set addr to that number
+            {
+                tape[addr] = (byte)num;
+                tape[val.Address] = 0x01;
+                return;
+            }
+
             int i;
             for (i = 0; i < input.Length; i++)
             {
