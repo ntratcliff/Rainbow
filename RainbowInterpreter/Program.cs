@@ -37,7 +37,7 @@ namespace RainbowInterpreter
 
 
             //load interpeter and execute program
-            Interpreter rainbowInterpreter = new Interpreter(hexArray);
+            Interpreter rainbowInterpreter = new Interpreter(hexArray, 2048);
             ExitStatus status = rainbowInterpreter.Execute();
 
             Console.WriteLine("Program exited with status: {0}", status.ToString());

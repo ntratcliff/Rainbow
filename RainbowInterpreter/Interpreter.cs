@@ -10,9 +10,11 @@ namespace RainbowInterpreter
     {
         private string[] statements;
         private int currentStatement;
-        public Interpreter(string[] ins)
+        private byte[] tape;
+        public Interpreter(string[] statements, int cellCount)
         {
-            statements = ins;
+            this.statements = statements;
+            tape = new byte[cellCount]; //create a tape with 2048 8-bit memory cells
         }
 
         public ExitStatus Execute()
@@ -20,16 +22,31 @@ namespace RainbowInterpreter
             for (currentStatement = 0; currentStatement < statements.Length; currentStatement++) //basic interpreter loop
             {
                 string statement = statements[currentStatement];
-                Instruction inst = (Instruction)Convert.ToInt32(statement.Substring(0,1), 16);
-                Console.WriteLine(inst);
-           
-                
+
+                Instruction instr = (Instruction)Convert.ToInt32(statement.Substring(0,1), 16);
+                int addr = Convert.ToInt32(statement.Substring(1, 2), 16);
+                ValuePart val = getValuePart(statement);
+
+                Console.WriteLine("{0} {1} {2}", instr, addr, val);
+
             }
 
             return ExitStatus.OK;
         }
 
+        private ValuePart getValuePart(string statement)
+        {
+            int val = Convert.ToInt32(statement.Substring(4, 2), 16);
+            int addr = 0;
 
+            if (statement[3] == '1') //if address switch is true
+            {
+                addr = val;
+                val = tape[addr];
+            }
+
+            return new ValuePart(val, addr);
+        }
     }
 
     enum Instruction
@@ -54,5 +71,22 @@ namespace RainbowInterpreter
         ProgramException = 1,
         RainbowException = 2,
         InterpreterException = 3
+    }
+
+    struct ValuePart
+    {
+        public int Value;
+        public int Address;
+
+        public ValuePart(int value, int address)
+        {
+            Value = value;
+            Address = address;
+        }
+
+        public override string ToString()
+        {
+            return "Value: " + Value + " Address: " + Address;
+        }
     }
 }
