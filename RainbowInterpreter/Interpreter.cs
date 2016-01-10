@@ -36,7 +36,7 @@ namespace RainbowInterpreter
                         break;
                     case Instruction.Print: print(addr, val);
                         break;
-                    case Instruction.In:
+                    case Instruction.In: input(addr, val);
                         break;
                     case Instruction.Label:
                         break;
@@ -82,6 +82,18 @@ namespace RainbowInterpreter
             }
         }
 
+        private void input(int addr, ValuePart val) //get text input starting at addr, setting val cell to input end address
+        {
+            string input = Console.ReadLine();
+            int i;
+            for (i = 0; i < input.Length; i++)
+            {
+                tape[i + addr] = (byte)input[i];
+            }
+
+            tape[val.Address] = (byte)(i + addr);
+        }
+        
         private ValuePart getValuePart(string statement)
         {
             int val = Convert.ToInt32(statement.Substring(4, 2), 16);
