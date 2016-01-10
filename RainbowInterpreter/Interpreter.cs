@@ -38,11 +38,9 @@ namespace RainbowInterpreter
                         break;
                     case Instruction.In: input(addr, val);
                         break;
-                    case Instruction.Label:
+                    case Instruction.Lookback: lookback(val);
                         break;
-                    case Instruction.Lookback:
-                        break;
-                    case Instruction.Lookahead:
+                    case Instruction.Lookahead: lookahead(val);
                         break;
                     case Instruction.Add:
                         break;
@@ -92,6 +90,26 @@ namespace RainbowInterpreter
             }
 
             tape[val.Address] = (byte)(i + addr);
+        }
+
+        private void lookback(ValuePart val) //looks back and begins execution at a flag with the same value (greedy)
+        {
+            for(; currentStatement > 0; currentStatement--)
+            {
+                if((Instruction)Convert.ToInt32(statements[currentStatement].Substring(0,1), 16) == Instruction.Label
+                    && getValuePart(statements[currentStatement]).Value == val.Value) //if statement is a label and value part is equal to lookback value
+                    return;
+            }
+        }
+
+        private void lookahead(ValuePart val) //looks forward and begins execution at a flag with the same value (greedy)
+        {
+            for(; currentStatement < statements.Length; currentStatement++)
+            {
+                if ((Instruction)Convert.ToInt32(statements[currentStatement].Substring(0, 1), 16) == Instruction.Label
+                    && getValuePart(statements[currentStatement]).Value == val.Value) //if statement is a label and value part is equal to lookahead value
+                    return;
+            }
         }
         
         private ValuePart getValuePart(string statement)
