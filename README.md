@@ -67,9 +67,32 @@ For example: `0x10204C` would result in the VM executing the `set` command, whic
 |`0x03` |InternalException|Rainbow VM encountered an unexpected exception                 |
 |`0xFF` |Unknown          |An unexpected and unknown internal exception occurred          |
 
-
 # The Interpreter
 
 This Rainbow interpreter is written in C#.NET, and accepts most popular image formats as input, although .BMP is recommended. To run a program, simply compile the RainbowInterpreter project, and execute `RainbowInterpreter.exe` from the console, with your program's path as the first argument.
 
 This interpreter also provides varied behavior for the `print` instruction. By default, print will output the contents of the tape in ASCII. However, if the flag `-h` is present as the second argument, `print` will output the hex values of cells. Alternatively, if the flag `-d` is present as the second argument, `print` will output the decimal values of cells. This is useful for debugging and for mathematical programs such as the factorial example.
+
+# Examples
+
+### Hello World
+
+![Hello World](https://i.imgur.com/UbOCjLl.png)
+
+This simple progam outputs the text `HELLO WORLD!`
+
+### Factorial
+
+![Factorial](https://i.imgur.com/cWdN127.png)
+
+This program takes an integer as input, calculates the factorial of that integer, and then prints the resulting value. 
+
+*Note: This factorial program is limited to the Rainbow memory cell size of 256 bits and therefore will only calculate up to 5 factorial, as all greater factorials result in a number greater 255, and undefined behavior.*
+
+### Fibonacci
+
+![Fibonacci](https://i.imgur.com/cYKt0u8.png)
+
+This program takes an integer as input, calculates the nth number in the Fibonacci Sequence, and then prints the resulting value.
+
+*Note: This program is also limited by the Rainbow memory cell size, and can only calculate up to the 13th number in the Fibonacci Sequence without undefined behavior.*
