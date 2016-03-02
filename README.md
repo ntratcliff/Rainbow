@@ -52,7 +52,7 @@ For example: `0x10204C` would result in the VM executing the `set` command, whic
 |9            |*undefined*|N/A    |N/A    |N/A|
 |A            |add        |`addr` |`val`  |Adds `val` to the value of the value of the cell at `addr`|
 |B            |sub        |`addr` |`val`  |Subtracts `val` from the value of the cell at `addr`|
-|C            |mul        |`addr` |`val`  |Multiplies the value of the call at `addr` by `val`|
+|C            |mul        |`addr` |`val`  |Multiplies the value of the cell at `addr` by `val`|
 |D            |div        |`addr` |`val`  |Divides the value of the cell at `addr` by `val`|
 |E            |mod        |`addr` |`val`  |Mods the value of the cell at `addr` by `val`|
 |F            |*undefined*|N/A    |N/A    |N/A|
