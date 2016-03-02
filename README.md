@@ -50,7 +50,7 @@ For example: `0x10204C` would result in the VM executing the `set` command, whic
 |7            |lookahead  |N/A    |`val`  |Searches forwards and resumes execution at the first label with the value `val` (lazy)|
 |8            |*undefined*|N/A    |N/A    |N/A|
 |9            |*undefined*|N/A    |N/A    |N/A|
-|A            |add        |`addr` |`val`  |Adds `val` tothe value of the cell at `addr`|
+|A            |add        |`addr` |`val`  |Adds `val` to the value of the cell at `addr`|
 |B            |sub        |`addr` |`val`  |Subtracts `val` from the value of the cell at `addr`|
 |C            |mul        |`addr` |`val`  |Multiplies the value of the cell at `addr` by `val`|
 |D            |div        |`addr` |`val`  |Divides the value of the cell at `addr` by `val`|
