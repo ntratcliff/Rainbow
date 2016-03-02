@@ -46,8 +46,8 @@ For example: `0x10204C` would result in the VM executing the `set` command, whic
 |3            |in         |`addr` |`addr2`|Takes input starting at `addr` and sets `addr2` to the address of the cell at the end of the input stream|
 |4            |*undefined*|N/A    |N/A    |N/A|
 |5            |label      |N/A    |`val`  |Sets a label of `val` for lookback or lookahead instructions|
-|6            |lookback   |N/A    |`val`  |Searches backwards and resumes execution at the first label with value `val` (greedy)|
-|7            |lookahead  |N/A    |`val`  |Searches forwards and resumes execution at the first label with the value `val` (greedy)|
+|6            |lookback   |N/A    |`val`  |Searches backwards and resumes execution at the first label with value `val` (lazy)|
+|7            |lookahead  |N/A    |`val`  |Searches forwards and resumes execution at the first label with the value `val` (lazy)|
 |8            |*undefined*|N/A    |N/A    |N/A|
 |9            |*undefined*|N/A    |N/A    |N/A|
 |A            |add        |`addr` |`val`  |Adds `val` to the value of the value of the cell at `addr`|
